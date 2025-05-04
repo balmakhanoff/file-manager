@@ -2,7 +2,7 @@ import readline from 'readline';
 import {parsedCliArgs} from './app/cliArguments.js';
 import os from 'os';
 import {moveToOtherDir, showDirList, moveToUpperDir} from "./app/navigationAndWorkingDirectory.js";
-import {createFile, readAndShowFile} from "./app/basicFileOperations.js";
+import {copyFile, createFile, createFolder, readAndShowFile, renameFileOrFolder} from "./app/basicFileOperations.js";
 
 const reader = readline.createInterface({
     input: process.stdin,
@@ -50,6 +50,15 @@ function askQuestion(username) {
         }
         else if (answer.toLowerCase().startsWith("add ")) {
             createFile(answer, currentDir)
+        }
+        else if (answer.toLowerCase().startsWith("mkdir ")) {
+            createFolder(answer, currentDir);
+        }
+        else if (answer.toLowerCase().startsWith("rn ")) {
+            renameFileOrFolder(answer, currentDir);
+        }
+        else if (answer.toLowerCase().startsWith("cp ")) {
+            copyFile(answer, currentDir);
         }
         else {
             console.log("Invalid input");
