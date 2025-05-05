@@ -2,7 +2,21 @@ import readline from 'readline';
 import {parsedCliArgs} from './app/cliArguments.js';
 import os from 'os';
 import {moveToOtherDir, showDirList, moveToUpperDir} from "./app/navigationAndWorkingDirectory.js";
-import {copyFile, createFile, createFolder, readAndShowFile, renameFileOrFolder} from "./app/basicFileOperations.js";
+import {
+    copyFile,
+    createFile,
+    createFolder,
+    moveFile,
+    readAndShowFile,
+    renameFileOrFolder
+} from "./app/basicFileOperations.js";
+import {
+    getCpuArchitecture,
+    getCpuINFO,
+    getEOL,
+    getHomeDir,
+    getOsUserName
+} from "./app/operationSystemInfo.js";
 
 const reader = readline.createInterface({
     input: process.stdin,
@@ -36,6 +50,7 @@ function askQuestion(username) {
             return;
         }
 
+        // navigation
         if (answer.toLowerCase() === "up") {
             currentDir = moveToUpperDir(currentDir);
         }
@@ -44,7 +59,7 @@ function askQuestion(username) {
         }
         else if (answer.toLowerCase() === "ls") {
             showDirList(currentDir)
-        }
+        } // basic file operations
         else if (answer.toLowerCase().startsWith("cat ")) {
             readAndShowFile(answer, currentDir)
         }
@@ -59,6 +74,27 @@ function askQuestion(username) {
         }
         else if (answer.toLowerCase().startsWith("cp ")) {
             copyFile(answer, currentDir);
+        }
+        else if (answer.toLowerCase().startsWith("mv ")) {
+            moveFile(answer, currentDir);
+        }
+        else if (answer.toLowerCase().startsWith("rm ")) {
+            deleteFile(answer, currentDir);
+        } // operating system info
+        else if (answer.trim() === "os --EOL") {
+            getEOL();
+        }
+        else if (answer.trim() === "os --cpus") {
+            getCpuINFO();
+        }
+        else if (answer.trim() === "os --homedir") {
+            getHomeDir();
+        }
+        else if (answer.trim() === "os --username") {
+            getOsUserName();
+        }
+        else if (answer.trim() === "os --architecture") {
+            getCpuArchitecture();
         }
         else {
             console.log("Invalid input");

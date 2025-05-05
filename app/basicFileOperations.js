@@ -94,3 +94,43 @@ export const copyFile = (answer, currentDir) => {
         console.log(`File ${sourcePath} copied to ${destinationPath} successfully.`);
     });
 };
+
+export const moveFile = (answer, currentDir) => {
+    const filePath = answer.slice(3).trim();
+    const [firstPart, secondPart] = filePath.split(" ");
+
+    if (!firstPart || !secondPart) {
+        console.error("Error: Invalid input. Usage: mv <source> <destination>");
+        return;
+    }
+
+    const sourcePath = path.isAbsolute(firstPart) ? firstPart : path.resolve(currentDir, firstPart);
+    let destinationPath = path.isAbsolute(secondPart) ? secondPart : path.resolve(currentDir, secondPart);
+
+    if (fs.existsSync(destinationPath) && fs.lstatSync(destinationPath).isDirectory()) {
+        const fileName = path.basename(destinationPath);
+        destinationPath = path.join(destinationPath, fileName);
+    }
+
+    fs.rename(sourcePath, destinationPath, (err) => {
+        if (err) {
+            console.error("Error moving file:", err.message);
+            return;
+        }
+        console.log(`File ${sourcePath} moved to ${destinationPath} successfully.`);
+    });
+
+}
+
+export const deleteFile = (answer, currentDir) => {
+    const filePath = answer.slice(3).trim();
+    const absolutePath = path.resolve(currentDir, filePath);
+
+    fs.unlink(absolutePath, (err) => {
+        if (err) {
+            console.error("Error deleting file:", err.message);
+            return;
+        }
+        console.log(`File ${filePath} deleted successfully.`);
+    });
+}
