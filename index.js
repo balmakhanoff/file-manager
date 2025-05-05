@@ -113,7 +113,7 @@ function askQuestion(username) {
 
         console.log(`You are currently in ${currentDir}`);
 
-        askQuestion(username);
+        setTimeout(() => askQuestion(username), 2000);
     });
 }
 
