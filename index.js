@@ -17,6 +17,7 @@ import {
     getHomeDir,
     getOsUserName
 } from "./app/operationSystemInfo.js";
+import {calculateHash} from "./app/hashCalculation.js";
 
 const reader = readline.createInterface({
     input: process.stdin,
@@ -95,6 +96,9 @@ function askQuestion(username) {
         }
         else if (answer.trim() === "os --architecture") {
             getCpuArchitecture();
+        } // hash calculation
+        else if (answer.toLowerCase().startsWith("hash ")) {
+            calculateHash(answer, currentDir);
         }
         else {
             console.log("Invalid input");
