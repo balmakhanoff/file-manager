@@ -18,6 +18,7 @@ import {
     getOsUserName
 } from "./app/operationSystemInfo.js";
 import {calculateHash} from "./app/hashCalculation.js";
+import {compressFile} from "./app/compressAndDecompress.js";
 
 const reader = readline.createInterface({
     input: process.stdin,
@@ -99,6 +100,12 @@ function askQuestion(username) {
         } // hash calculation
         else if (answer.toLowerCase().startsWith("hash ")) {
             calculateHash(answer, currentDir);
+        } // compress and decompress
+        else if (answer.toLowerCase().startsWith("compress ")) {
+            compressFile(answer, currentDir);
+        }
+        else if (answer.toLowerCase().startsWith("decompress ")) {
+            decompressFile(answer, currentDir);
         }
         else {
             console.log("Invalid input");
